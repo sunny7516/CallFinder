@@ -14,8 +14,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tacademy.callfinder.R;
+import com.example.tacademy.callfinder.evt.OTTOBus;
 import com.example.tacademy.callfinder.model.ResSearchHp;
 import com.example.tacademy.callfinder.model.ResSearchHpBody;
+import com.example.tacademy.callfinder.util.U;
+import com.squareup.otto.Subscribe;
 
 public class CallSearchFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
@@ -36,6 +39,8 @@ public class CallSearchFragment extends Fragment {
     LayoutInflater inflater;
 
     public CallSearchFragment() {
+        // 이벤트 받을 녀석 설정 (액티비티, 플래그먼트)
+        OTTOBus.getInstance().getBus().register(this);
     }
 
     public static CallSearchFragment newInstance(String param1, String param2) {
@@ -154,5 +159,12 @@ public class CallSearchFragment extends Fragment {
 
             return convertView;
         }
+    }
+
+    @Subscribe
+    public void FinishLoad(ResSearchHp data){
+        U.getInstance().log("데이터가 넘어왔다!!");
+        resSearchHp = data;
+        ((MyAdapter)grideView.getAdapter()).notifyDataSetChanged();
     }
 }

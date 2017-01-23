@@ -9,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.tacademy.callfinder.evt.OTTOBus;
 import com.example.tacademy.callfinder.model.AddressModel;
 import com.example.tacademy.callfinder.model.ReqHeader;
 import com.example.tacademy.callfinder.model.ReqInsertAddress;
@@ -112,6 +113,8 @@ public class Network {
                                     // 4. 응답
                                     Log.i("RES", response.toString());
                                     ResSearchHp resSearchHp = new Gson().fromJson(response.toString(), ResSearchHp.class);
+                                    // 이벤트 발생 등록
+                                    OTTOBus.getInstance().getBus().post(resSearchHp);
                                 }
                             },
                             new Response.ErrorListener() {
