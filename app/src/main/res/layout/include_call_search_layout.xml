@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+레이아웃 인클루드는 한개의 화면에 배치를 다 못할 때, 화면이 복잡하여 메모리가 부족할 때,
+중복적으로 사용되는 파트가 존재할 때 사용
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        class="android.support.v4.view.ViewPager"
+        android:id="@+id/viewpager"/>
+
+</LinearLayout>

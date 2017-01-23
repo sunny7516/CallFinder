@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class ContactsService extends Service {
 
     ArrayList<AddressModel> cc = new ArrayList<AddressModel>();
-    String uid = "28764873";
+    public static String uid = "28764873";
     final int BUFFER_MAX_CNT = 10;
 
     public ContactsService() {

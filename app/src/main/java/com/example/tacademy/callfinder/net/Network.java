@@ -12,6 +12,10 @@ import com.android.volley.toolbox.Volley;
 import com.example.tacademy.callfinder.model.AddressModel;
 import com.example.tacademy.callfinder.model.ReqHeader;
 import com.example.tacademy.callfinder.model.ReqInsertAddress;
+import com.example.tacademy.callfinder.model.ReqSearchHp;
+import com.example.tacademy.callfinder.model.ReqSearchHpBody;
+import com.example.tacademy.callfinder.model.ResSearchHp;
+import com.example.tacademy.callfinder.service.ContactsService;
 import com.example.tacademy.callfinder.util.U;
 import com.google.gson.Gson;
 
@@ -83,7 +87,43 @@ public class Network {
         } catch (Exception e) {
 
         }
-        // 3. 통신
-        // 4. 응답 (성공, 실패)
+    }
+    // 전화번호 검색
+    public void searchHp(Context context, String tel){
+        // 전송 : {header:{code:SH}, body:{tel:xx, uid:xx}}
+        // 응답 : {code:1, msg:{name:xxx, ... nickname:xxxx}}
+        // 1. 파라미터 구성
+        ReqSearchHp reqSearchHp = new ReqSearchHp();
+        ReqHeader reqHeader = new ReqHeader();
+        ReqSearchHpBody reqSearchHpBody= new ReqSearchHpBody(tel, ContactsService.uid);
+        reqSearchHp.setHeader(reqHeader);
+        reqSearchHp.setBody(reqSearchHpBody);
+
+        // 2. 요청 생성 : /selectHp
+        try {
+            JsonObjectRequest jsonObjectRequest =
+                    new JsonObjectRequest(
+                            Request.Method.POST,
+                            "http://52.78.30.74:3000/selectTel",
+                            new JSONObject(new Gson().toJson(reqSearchHp)),
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    // 4. 응답
+                                    Log.i("RES", response.toString());
+                                    ResSearchHp resSearchHp = new Gson().fromJson(response.toString(), ResSearchHp.class);
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                }
+                            }
+                    );
+            // 3. 응답큐에 요청 추가
+            getRequestQueue(context).add(jsonObjectRequest);
+        } catch (Exception e) {
+
+        }
     }
 }
