@@ -12,9 +12,12 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.tacademy.callfinder.db.StorageHelper;
+import com.example.tacademy.callfinder.model.LastCallModel;
 import com.example.tacademy.callfinder.net.Network;
 import com.example.tacademy.callfinder.service.ContactsService;
-import com.example.tacademy.callfinder.ui.act.CallSearchActivity;
+import com.example.tacademy.callfinder.util.U;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     final int PERMISSION_READ_CONTACTS = 0;
@@ -41,8 +44,35 @@ public class MainActivity extends AppCompatActivity {
             // 6.0 이하 단말기는 동의가 필요 없으므로 바로 실행
             getAddress();
         }
-        Intent intent = new Intent(this, CallSearchActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, CallSearchActivity.class);
+        //startActivity(intent);
+
+        // 미개통 단말기 사용자들 위해서 자동 테스트로 임시로 데이터를 넣음
+        // 디비 생성 및 테이블 생성
+        U.getInstance().getLocalDB(this);
+        // 데이터 추가
+        U.getInstance().getLocalDB(this).insertLog(new LastCallModel(
+                0,
+                ContactsService.uid,
+                "",
+                "12341234",
+                5,
+                System.currentTimeMillis()+""
+        ));
+        // 데이터 추가
+        U.getInstance().getLocalDB(this).insertLogEx(new LastCallModel(
+                0,
+                ContactsService.uid,
+                "",
+                "55555556666666",
+                5,
+                System.currentTimeMillis()+""
+        ));
+        // 데이터 조회
+        ArrayList<LastCallModel> array = U.getInstance().getLocalDB(this).selectLog();
+        for(LastCallModel m : array){
+            U.getInstance().log("전화번호 : " + m.getTel());
+        }
     }
 
     public boolean isSupport() {

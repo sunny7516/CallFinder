@@ -1,6 +1,9 @@
 package com.example.tacademy.callfinder.util;
 
+import android.content.Context;
 import android.util.Log;
+
+import com.example.tacademy.callfinder.db.LocalDB;
 
 /**
  * Created by Tacademy on 2017-01-20.
@@ -20,5 +23,14 @@ public class U {
         Log.i("U-","--------------------");
         Log.i("U-",""+msg); //null을 출력하면 죽으니까 ""를 앞에 추가해줌
         Log.i("U-","--------------------");
+    }
+    ////////////////////////////////////////////
+    // 디비
+    LocalDB localDB;
+
+    public LocalDB getLocalDB(Context context) {
+        if(localDB == null)
+        localDB = new LocalDB(context);
+        return localDB;
     }
 }

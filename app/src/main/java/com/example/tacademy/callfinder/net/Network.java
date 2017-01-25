@@ -99,7 +99,6 @@ public class Network {
         ReqSearchHpBody reqSearchHpBody= new ReqSearchHpBody(tel, ContactsService.uid);
         reqSearchHp.setHeader(reqHeader);
         reqSearchHp.setBody(reqSearchHpBody);
-
         // 2. 요청 생성 : /selectHp
         try {
             JsonObjectRequest jsonObjectRequest =
